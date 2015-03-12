@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'DummyClass' => $baseDir . '/src/DummyClass.php',
+    'StringToArrayConverter' => $baseDir . '/src/StringToArrayConverter.php',
 );
