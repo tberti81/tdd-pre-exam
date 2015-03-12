@@ -1,3 +1,4 @@
 1. request
  - test with invalid arguments
- - test with valid string
+ - test with valid string separated by comma
+ - test with valid string without comma

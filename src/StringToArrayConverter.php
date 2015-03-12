@@ -8,5 +8,7 @@ class StringToArrayConverter
 		{
 			throw new InvalidArgumentException();
 		}
+
+		return explode(',', $string);
 	}
 }

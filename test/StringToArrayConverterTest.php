@@ -3,14 +3,24 @@
 class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * @var StringToArrayConverter
+	 */
+	private $converter;
+
+	public function setUp()
+	{
+		$this->converter = new StringToArrayConverter();
+	}
+
+	/**
 	 * @dataProvider invalidArgumentProvider
 	 *
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testConverterThrowsExceptionWhenInvalidArgumentGiven($param)
 	{
-		$converter = new StringToArrayConverter();
-		$converter->convert($param);
+		$this->converter = new StringToArrayConverter();
+		$this->converter->convert($param);
 	}
 
 	public function invalidArgumentProvider()
@@ -22,5 +32,10 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 			array(true),
 			array(null)
 		);
+	}
+
+	public function testConverterReturnsWithExpectedArrayWhenCommaSeparatedStringGiven()
+	{
+		$this->assertEquals(array('a','b'), $this->converter->convert('a,b'));
 	}
 }
