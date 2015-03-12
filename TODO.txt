@@ -2,3 +2,5 @@
  - test with invalid arguments
  - test with valid string separated by comma
  - test with valid string without comma
+2. request
+ - detect multiline input(separated by new line)

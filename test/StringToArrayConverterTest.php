@@ -43,4 +43,14 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(array('ab+&rQ0['), $this->converter->convert('ab+&rQ0['));
 	}
+
+	public function testConverterWithMultiLineString()
+	{
+		$multiLineString = 'dsfGa01.d,2' . PHP_EOL . '01kljFkf!,!';
+		$expectedOutput  = array(
+			array('dsfGa01.d', '2'),
+			array('01kljFkf!', '!')
+		);
+		$this->assertEquals($expectedOutput, $this->converter->convert($multiLineString));
+	}
 }
