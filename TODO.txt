@@ -3,4 +3,9 @@
  - test with valid string separated by comma
  - test with valid string without comma
 2. request
- - detect multiline input(separated by new line)
+ - test multiline input(separated by new line)
+3. request
+ - test wrong label usage -> empty second line or missing data -> throw InvalidLabelUsageException
+ - test wrong label usage -> labels count doesn't match with element count in one line -> throw LabelAndDataMismatchException
+ - test with correct syntax
+

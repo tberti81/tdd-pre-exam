@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'DummyClass' => $baseDir . '/src/DummyClass.php',
+    'InvalidLabelUsageException' => $baseDir . '/src/exception/InvalidLabelUsageException.php',
     'StringToArrayConverter' => $baseDir . '/src/StringToArrayConverter.php',
 );

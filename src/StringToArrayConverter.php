@@ -2,19 +2,36 @@
 
 class StringToArrayConverter
 {
-	public function convert($string)
+	const LABEL_MARKER = '#useFirstLineAsLabels';
+
+	private $string;
+
+	public function __construct($string)
 	{
 		if (!$this->isValid($string))
 		{
 			throw new InvalidArgumentException();
 		}
 
-		if ($this->isMultiLine($string))
+		$this->string = $string;
+	}
+
+	public function convert()
+	{
+		if ($this->isMultiLine())
 		{
-			return $this->convertMultiLine($string);
+			if ($this->hasLabelMarker())
+			{
+				if (!$this->isValidLabelUsage())
+				{
+					throw new InvalidLabelUsageException();
+				}
+			}
+
+			return $this->convertMultiLine();
 		}
 
-		return $this->convertSingleLine($string);
+		return $this->convertSingleLine();
 	}
 
 	private function isValid($string)
@@ -22,19 +39,19 @@ class StringToArrayConverter
 		return is_string($string);
 	}
 
-	private function convertSingleLine($string)
+	private function convertSingleLine()
 	{
-		return explode(',', $string);
+		return explode(',', $this->string);
 	}
 
-	private function isMultiLine($string)
+	private function isMultiLine()
 	{
-		return strpos($string, PHP_EOL) !== false;
+		return strpos($this->string, PHP_EOL) !== false;
 	}
 
-	private function convertMultiLine($string)
+	private function convertMultiLine()
 	{
-		$lines  = explode(PHP_EOL, $string);
+		$lines  = explode(PHP_EOL, $this->string);
 		$result = array();
 		foreach ($lines as $line)
 		{
@@ -42,5 +59,29 @@ class StringToArrayConverter
 		}
 
 		return $result;
+	}
+
+	private function hasLabelMarker()
+	{
+		return strpos($this->string, self::LABEL_MARKER) !== false;
+	}
+
+	private function isValidLabelUsage()
+	{
+		return $this->hasLabelRow() && $this->hasDataRow();
+	}
+
+	private function hasLabelRow()
+	{
+		$lines = explode(PHP_EOL, $this->string);
+
+		return !empty($lines[1]);
+	}
+
+	private function hasDataRow()
+	{
+		$lines = explode(PHP_EOL, $this->string);
+
+		return count($lines) > 2;
 	}
 }
