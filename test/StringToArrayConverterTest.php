@@ -38,4 +38,9 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(array('a','b'), $this->converter->convert('a,b'));
 	}
+
+	public function testConverterReturnsWithExpectedArrayWhenStringGivenWithoutComma()
+	{
+		$this->assertEquals(array('ab+&rQ0['), $this->converter->convert('ab+&rQ0['));
+	}
 }
