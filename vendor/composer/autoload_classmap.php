@@ -9,5 +9,6 @@ return array(
     'DummyClass' => $baseDir . '/src/DummyClass.php',
     'InvalidLabelUsageException' => $baseDir . '/src/exception/InvalidLabelUsageException.php',
     'LabelAndDataMismatchException' => $baseDir . '/src/exception/LabelAndDataMismatchException.php',
+    'LabelledMultiLineDo' => $baseDir . '/src/do/LabelledMultiLineDo.php',
     'StringToArrayConverter' => $baseDir . '/src/StringToArrayConverter.php',
 );

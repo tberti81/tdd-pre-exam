@@ -69,4 +69,39 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 		$converter = new StringToArrayConverter($string);
 		$converter->convert();
 	}
+
+	public function testConverterWithCorrectLabelledMultiLineString()
+	{
+		$string = StringToArrayConverter::LABEL_MARKER . PHP_EOL
+			. 'Position,Team,Point' . PHP_EOL
+			. '1,McLaren Mercedes,43' . PHP_EOL
+			. '2,Scuderia Ferrari,15';
+		$expectedLabels = array(
+			'labels' => array(
+				'Position',
+				'Team',
+				'Point'
+			)
+		);
+		$expectedData = array(
+			'data' => array(
+				array(
+					'1',
+					'McLaren Mercedes',
+					'43'
+				),
+				array(
+					'2',
+					'Scuderia Ferrari',
+					'15'
+				)
+			)
+		);
+
+		$converter           = new StringToArrayConverter($string);
+		$labelledMultiLineDo = $converter->convert();
+
+		$this->assertEquals($expectedLabels, $labelledMultiLineDo->getLabels());
+		$this->assertEquals($expectedData, $labelledMultiLineDo->getData());
+	}
 }

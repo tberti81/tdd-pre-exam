@@ -89,6 +89,24 @@ class StringToArrayConverter
 
 	private function convertLabelledMultiLine()
 	{
-		throw new LabelAndDataMismatchException();
+		$lines = explode(PHP_EOL, $this->string);
+
+		array_shift($lines);
+
+		$labels = explode(',', $lines[0]);
+		$labelledMultiLineDo = new LabelledMultiLineDo();
+		$labelledMultiLineDo->setLabels($labels);
+
+		array_shift($lines);
+		foreach ($lines as $line) {
+			$dataRow = explode(',', $line);
+			if (count($dataRow) != count($labels))
+			{
+				throw new LabelAndDataMismatchException();
+			}
+			$labelledMultiLineDo->appendDataRow($dataRow);
+		}
+
+		return $labelledMultiLineDo;
 	}
 }
