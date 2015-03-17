@@ -26,6 +26,8 @@ class StringToArrayConverter
 				{
 					throw new InvalidLabelUsageException();
 				}
+
+				return $this->convertLabelledMultiLine();
 			}
 
 			return $this->convertMultiLine();
@@ -83,5 +85,10 @@ class StringToArrayConverter
 		$lines = explode(PHP_EOL, $this->string);
 
 		return count($lines) > 2;
+	}
+
+	private function convertLabelledMultiLine()
+	{
+		throw new LabelAndDataMismatchException();
 	}
 }

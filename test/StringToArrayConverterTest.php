@@ -56,4 +56,17 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 		$converter = new StringToArrayConverter($string);
 		$converter->convert();
 	}
+
+	/**
+	 * @expectedException LabelAndDataMismatchException
+	 */
+	public function testConverterThrowsExceptionWhenLabelAndDataCountDoesNotMatch()
+	{
+		$string = StringToArrayConverter::LABEL_MARKER . PHP_EOL
+			. 'Position,Team,Point' . PHP_EOL
+			. '1,McLaren Mercedes' . PHP_EOL
+			. '2,Scuderia Ferrari';
+		$converter = new StringToArrayConverter($string);
+		$converter->convert();
+	}
 }
