@@ -7,10 +7,9 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @expectedException InvalidArgumentException
 	 */
-	public function testConverterThrowsExceptionWhenInvalidArgumentGiven($param)
+	public function testConverterThrowsExceptionWhenInvalidArgumentGiven($argument)
 	{
-		$converter = new StringToArrayConverter($param);
-		$converter->convert();
+		$converterFactory = new StringToArrayConverterFactory($argument);
 	}
 
 	public function invalidArgumentProvider()
@@ -26,25 +25,29 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 
 	public function testConverterReturnsWithExpectedArrayWhenCommaSeparatedStringGiven()
 	{
-		$converter = new StringToArrayConverter('a,b');
-		$this->assertEquals(array('a','b'), $converter->convert());
+		$inputString    = 'a,b';
+		$expectedOutput = array('a','b');
+
+		$this->assertEquals($expectedOutput, $this->executeConversion($inputString));
 	}
 
 	public function testConverterReturnsWithExpectedArrayWhenStringGivenWithoutComma()
 	{
-		$converter = new StringToArrayConverter('ab+&rQ0[');
-		$this->assertEquals(array('ab+&rQ0['), $converter->convert());
+		$inputString    = 'ab+&rQ0[';
+		$expectedOutput = array('ab+&rQ0[');
+
+		$this->assertEquals($expectedOutput, $this->executeConversion($inputString));
 	}
 
 	public function testConverterWithMultiLineString()
 	{
-		$multiLineString = 'dsfGa01.d,2' . PHP_EOL . '01kljFkf!,!';
-		$converter = new StringToArrayConverter($multiLineString);
+		$inputString    = 'dsfGa01.d,2' . PHP_EOL . '01kljFkf!,!';
 		$expectedOutput  = array(
 			array('dsfGa01.d', '2'),
 			array('01kljFkf!', '!')
 		);
-		$this->assertEquals($expectedOutput, $converter->convert());
+
+		$this->assertEquals($expectedOutput, $this->executeConversion($inputString));
 	}
 
 	/**
@@ -52,9 +55,9 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConverterThrowsExceptionWhenInvalidLabelUsage()
 	{
-		$string = StringToArrayConverter::LABEL_MARKER . PHP_EOL;
-		$converter = new StringToArrayConverter($string);
-		$converter->convert();
+		$inputString = StringToArrayConverterFactory::LABEL_MARKER . PHP_EOL;
+
+		$this->executeConversion($inputString);
 	}
 
 	/**
@@ -62,17 +65,17 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConverterThrowsExceptionWhenLabelAndDataCountDoesNotMatch()
 	{
-		$string = StringToArrayConverter::LABEL_MARKER . PHP_EOL
+		$inputString = StringToArrayConverterFactory::LABEL_MARKER . PHP_EOL
 			. 'Position,Team,Point' . PHP_EOL
 			. '1,McLaren Mercedes' . PHP_EOL
 			. '2,Scuderia Ferrari';
-		$converter = new StringToArrayConverter($string);
-		$converter->convert();
+
+		$this->executeConversion($inputString);
 	}
 
 	public function testConverterWithCorrectLabelledMultiLineString()
 	{
-		$string = StringToArrayConverter::LABEL_MARKER . PHP_EOL
+		$inputString = StringToArrayConverterFactory::LABEL_MARKER . PHP_EOL
 			. 'Position,Team,Point' . PHP_EOL
 			. '1,McLaren Mercedes,43' . PHP_EOL
 			. '2,Scuderia Ferrari,15';
@@ -98,10 +101,24 @@ class StringToArrayConverterTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$converter           = new StringToArrayConverter($string);
-		$labelledMultiLineDo = $converter->convert();
+		$labelledMultiLineDo = $this->executeConversion($inputString);
 
 		$this->assertEquals($expectedLabels, $labelledMultiLineDo->getLabels());
 		$this->assertEquals($expectedData, $labelledMultiLineDo->getData());
+	}
+
+	/**
+	 * Execute a string conversion.
+	 *
+	 * @param $inputString   String to convert.
+	 *
+	 * @return array|LabelledMultiLineDo   Result of the conversion.
+	 */
+	private function executeConversion($inputString)
+	{
+		$converterFactory    = new StringToArrayConverterFactory($inputString);
+		$converter           = $converterFactory->getConverter();
+
+		return $converter->convert();
 	}
 }

@@ -10,5 +10,9 @@ return array(
     'InvalidLabelUsageException' => $baseDir . '/src/exception/InvalidLabelUsageException.php',
     'LabelAndDataMismatchException' => $baseDir . '/src/exception/LabelAndDataMismatchException.php',
     'LabelledMultiLineDo' => $baseDir . '/src/do/LabelledMultiLineDo.php',
-    'StringToArrayConverter' => $baseDir . '/src/StringToArrayConverter.php',
+    'LabelledMultiLineStringToArrayConverter' => $baseDir . '/src/LabelledMultiLineStringToArrayConverter.php',
+    'NonLabelledMultiLineStringToArrayConverter' => $baseDir . '/src/NonLabelledMultiLineStringToArrayConverter.php',
+    'SingleLineStringToArrayConverter' => $baseDir . '/src/SingleLineStringToArrayConverter.php',
+    'StringToArrayConverterAbstract' => $baseDir . '/src/StringToArrayConverterAbstract.php',
+    'StringToArrayConverterFactory' => $baseDir . '/src/StringToArrayConverterFactory.php',
 );
